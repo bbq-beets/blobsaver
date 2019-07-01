@@ -149,8 +149,13 @@ public class Main {
             primaryStage.setTitle("blobsaver " + Main.appVersion);
             primaryStage.setScene(new Scene(root));
             primaryStage.getScene().getStylesheets().add(getClass().getResource("app.css").toExternalForm());
-            if (PlatformUtil.isMac()) { // setup the dock icon
-                com.apple.eawt.Application.getApplication().setDockIconImage(javax.imageio.ImageIO.read(getClass().getResourceAsStream("blob_emoji.png")));
+            if (PlatformUtil.isMac()) { // setup the dock icon, on Java 11 it only works by reflection
+//                try {
+//                    Class applicationClass = Class.forName("com.apple.eawt.Application");
+//                    applicationClass.getMethod("setDockIconImage", java.awt.Image.class).invoke(applicationClass.getMethod("getApplication").invoke(null), javax.imageio.ImageIO.read(getClass().getResourceAsStream("blob_emoji.png")));
+//                } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | ClassNotFoundException ignored) {
+//                }
+//                com.apple.eawt.Application.getApplication().setDockIconImage(javax.imageio.ImageIO.read(getClass().getResourceAsStream("blob_emoji.png")));
             } else {
                 primaryStage.getIcons().clear();
                 primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("blob_emoji.png")));
